@@ -1,6 +1,17 @@
 # Joint_Align: A Unified Framework for Cross-lingual Alignment and Joint Training 
 ![Model](./illustration.png)
 
+This repo contains the source codes for our paper
+
+>[Cross-lingual Alignment vs Joint Training: A Comparative Study and A Simple Unified Framework]
+
+>Zirui Wang*, Jiateng Xie*, Ruochen Xu, Yiming Yang, Graham Neubig, Jaime Carbonell (*: equal contribution)
+
+>Preprint
+>
+Joint_Align is a unified framework for cross-lingual word embeddings (CLWE). The goal is to use unsupervised joint training as a coarse initialization and then applies alignment methods for refinement. Specifically, it contains three main components: (1) Joint Initialization (2) Vocabulary Reallocation (3) Alignment Refinement. Please see our paper for details.
+
+This repo includes two settings where Joint_Align is applied to both non-contextualized and contextualized word embeddings. 
 
 
 
@@ -21,25 +32,4 @@
 ## Applications: Bilingual Lexicon Induction (BLI)
 
 ## Applications: Name Entity Recognition (NER)
-
-
-
-## Reference
-
-Please cite [1] if you found the resources in this repository useful.
-
-[1] Zirui Wang*, Jiateng Xie*, Ruochen Xu, Yiming Yang, Graham Neubig, Jaime Carbonell (*: equal contribution)
-
-### Cross-lingual Alignment vs Joint Training: A Comparative Study and A Simple Unified Framework
-
-```
-```
-@article{wang2019cross,
-  title={Cross-lingual Alignment vs Joint Training: A Comparative Study and A Simple Unified Frameworka},
-  author={TBA},
-  journal={arXiv preprint},
-  year={2019}
-}
-```
-```
 
