@@ -14,7 +14,7 @@ parser.add_argument("--vocab_size", type=int, default=400000)
 
 parser.add_argument("--src_only_output_path", type=str, required=True)
 parser.add_argument("--tgt_only_output_path", type=str, required=True)
-parser.add_argument("--joint_only_output_path", type=str, required=True)
+parser.add_argument("--joint_only_output_path", type=str, help="If empty, the embedding will be splitted into two parts instead of three.")
 
 params = parser.parse_args()
 
@@ -61,22 +61,34 @@ for i in range(len(joint_words)):
         joint_count += 1
 
 output_src = open(params.src_only_output_path, 'w')
-output_tgt = open(params.tgt_only_output_path, 'w')
-output_joint = open(params.joint_only_output_path, 'w')
-
 output_src.write(str(src_count) + ' ' + str(params.dim) + '\n')
+
+output_tgt = open(params.tgt_only_output_path, 'w')
 output_tgt.write(str(tgt_count) + ' ' + str(params.dim) + '\n')
-output_joint.write(str(joint_count) + ' ' + str(params.dim) + '\n')
 
+if params.joint_only_output_path is not None:
+    output_joint = open(params.joint_only_output_path, 'w')
+    output_joint.write(str(joint_count) + ' ' + str(params.dim) + '\n')
 
-for i in range(len(joint_words)):
-    if joint_words[i] in src_only:
-        output_src.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
-    elif joint_words[i] in tgt_only:
-        output_tgt.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
-    elif joint_words[i] in joint_only:
-        output_joint.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+if params.joint_only_output_path is not None:
+    for i in range(len(joint_words)):
+        if joint_words[i] in src_only:
+            output_src.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+        elif joint_words[i] in tgt_only:
+            output_tgt.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+        elif joint_words[i] in joint_only:
+            output_joint.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+else:
+    for i in range(len(joint_words)):
+        if joint_words[i] in src_only:
+            output_src.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+        elif joint_words[i] in tgt_only:
+            output_tgt.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+        elif joint_words[i] in joint_only:
+            output_src.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
+            output_tgt.write(joint_words[i] + ' ' + ' '.join([str(n) for n in joint_emb[i]]) + '\n')
 
 output_src.close()
 output_tgt.close()
-output_joint.close()
+if params.joint_only_output_path is not None:
+    output_joint.close()

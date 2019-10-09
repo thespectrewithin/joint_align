@@ -28,11 +28,12 @@ This repo includes two settings where Joint_Align is applied to both non-context
 
 
 ## Joint_Align for Non-contextualized Word Embeddings
+The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn a cross-lingual non-textualized word embeddings.
 
 ## Joint_Align for Contextualized Word Embeddings
 
 ## Application: Bilingual Lexicon Induction (BLI)
-The script `example_BLI.sh` shows how to use this code to learn a cross-lingual non-textualized word embeddings and evaluate on the BLI task using the MUSE benchmark dataset.
+The script `example_BLI.sh` shows how to evaluate the cross-lingual non-textualized word embeddings learned on the BLI task using the MUSE benchmark dataset.
 
 
 ## Application: Name Entity Recognition (NER)
