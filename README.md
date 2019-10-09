@@ -40,7 +40,7 @@ To reproduce results in Table 1, please use the following evaluation script (ada
 ``` 
 DICO_EVAL=/path/to/dico/en-${lang}.5000-6500.txt
 
-python ./evaluate_BLI.py --src_emb $SRC_OUTPUT_EMBED --tgt_emb $TGT_OUTPUT_EMBED --dico_path $DICO_EVAL
+python evaluate_BLI.py --src_emb $SRC_OUTPUT_EMBED --tgt_emb $TGT_OUTPUT_EMBED --dico_path $DICO_EVAL
 ```
 
 For Russian, please use this [code](https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py) to remove accent from the dictionary.
