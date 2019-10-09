@@ -110,7 +110,6 @@ def get_word_translation_accuracy(word2id1, emb1, word2id2, emb2, path, method='
     matching = {}
     for i, src_id in enumerate(dico[:, 0].cpu().numpy()):
         matching[src_id] = min(matching.get(src_id, 0) + _matching[i], 1)
-    kkk = np.mean(list(matching.values()))
-    precision_at_k = (kkk * len(included_source_words) + predict_self_count)/total_tested
+    precision_at_k = (np.mean(list(matching.values())) * len(included_source_words) + predict_self_count)/total_tested
     return 100 * precision_at_k
 
