@@ -20,16 +20,19 @@ This repo includes two settings where Joint_Align is applied to both non-context
 * Python 3
 * [NumPy](http://www.numpy.org/)
 * [PyTorch](http://pytorch.org/)
+* [fastText](https://github.com/facebookresearch/fastText) 
+* [MUSE](https://github.com/facebookresearch/MUSE)
 * [Moses](http://www.statmt.org/moses/)
 * [fastBPE](https://github.com/glample/fastBPE)
-* [fastText](https://github.com/facebookresearch/fastText) 
+
 
 
 ## Joint_Align for Non-contextualized Word Embeddings
 
 ## Joint_Align for Contextualized Word Embeddings
 
-## Applications: Bilingual Lexicon Induction (BLI)
+## Application: Bilingual Lexicon Induction (BLI)
+The script `example_BLI.sh` shows how to use this code to learn a cross-lingual non-textualized word embeddings and evaluate on the BLI task using the MUSE benchmark dataset.
 
-## Applications: Name Entity Recognition (NER)
 
+## Application: Name Entity Recognition (NER)
