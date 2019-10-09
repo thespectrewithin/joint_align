@@ -28,12 +28,21 @@ This repo includes two settings where Joint_Align is applied to both non-context
 
 
 ## Joint_Align for Non-contextualized Word Embeddings
-The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn a cross-lingual non-textualized word embeddings.
+The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-textualized word embeddings.
 
 ## Joint_Align for Contextualized Word Embeddings
 
-## Application: Bilingual Lexicon Induction (BLI)
-The script `example_BLI.sh` shows how to evaluate the cross-lingual non-textualized word embeddings learned on the BLI task using the MUSE benchmark dataset.
 
+## Application: Bilingual Lexicon Induction (BLI)
+The script `example_BLI.sh` shows how to evaluate the cross-lingual non-textualized word embeddings learned on the BLI task using the MUSE benchmark dataset. Notice that it uses the official evaluation script of MUSE and the results correspond to Table 4 in our paper.
+
+To reproduce results in Table 1, please use the following evaluation script (adapted from MUSE) which marks excluded test pairs as incorrect:
+``` 
+DICO_EVAL=/path/to/dico/en-${lang}.5000-6500.txt
+
+python ./evaluate_BLI.py --src_emb $SRC_OUTPUT_EMBED --tgt_emb $TGT_OUTPUT_EMBED --dico_path $DICO_EVAL
+```
+
+For Russian, please use this [code](https://github.com/facebookresearch/XLM/blob/master/tools/lowercase_and_remove_accent.py) to remove accent from the dictionary.
 
 ## Application: Name Entity Recognition (NER)
