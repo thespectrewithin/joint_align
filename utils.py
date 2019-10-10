@@ -11,14 +11,14 @@ def read_vocab(path):
             total_count += int(l[1])
     return vocab, total_count
 
-def load_embedding(path, vocab_size):
+def load_embedding(path, vocab_size=-1):
     word_vector = []
     word_dict = {}
     words = []
 
     for line in open(path):
         if len(line.rstrip().split()) > 2:
-            if len(words) < vocab_size:
+            if len(words) < vocab_size or vocab_size == -1:
                 word, vec = line.rstrip().split(' ', 1)
                 word_dict[word] = len(word_dict)
                 words.append(word)
@@ -95,13 +95,11 @@ def get_word_translation_accuracy(word2id1, emb1, word2id2, emb2, path, method='
     else:
         raise Exception('Unknown method: "%s"' % method)
 
-    total_tested, predict_self_count = len(included_source_words), 0
+    predict_self_count = 0
     for w1 in all_pairs:
-        if w1 not in included_source_words:
-            if w1 in word2id2 and w1 in all_pairs[w1]:
-                predict_self_count += 1
-            if w1 in word2id1 or w1 in word2id2:
-                total_tested += 1
+        if w1 not in included_source_words and w1 in all_pairs[w1]:
+            # Methods automatically predict the same source for itself if it is OOV.
+            predict_self_count += 1
 
     top_matches = scores.topk(10, 1, True)[1]
 
@@ -110,6 +108,6 @@ def get_word_translation_accuracy(word2id1, emb1, word2id2, emb2, path, method='
     matching = {}
     for i, src_id in enumerate(dico[:, 0].cpu().numpy()):
         matching[src_id] = min(matching.get(src_id, 0) + _matching[i], 1)
-    precision_at_k = (np.mean(list(matching.values())) * len(included_source_words) + predict_self_count)/total_tested
+    precision_at_k = (np.mean(list(matching.values())) * len(included_source_words) + predict_self_count)/len(all_pairs)
     return 100 * precision_at_k
 

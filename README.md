@@ -28,7 +28,8 @@ This repo includes two settings where Joint_Align is applied to both non-context
 
 
 ## Joint_Align for Non-contextualized Word Embeddings
-The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-textualized word embeddings.
+The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-textualized word embeddings. 
+This will produce a joint_align embedding at the location `$PWD/word_embeddings/${src_lang}_${tgt_lang}/joint_align_embedding`, which can then be applied to downstream tasks.
 
 ## Joint_Align for Contextualized Word Embeddings
 
@@ -38,7 +39,7 @@ The script `example_BLI.sh` shows how to evaluate the cross-lingual non-textuali
 
 To reproduce results in Table 1, please use the following evaluation script (adapted from MUSE) which marks excluded test pairs as incorrect:
 ``` 
-DICO_EVAL=/path/to/dico/en-${lang}.5000-6500.txt
+DICO_EVAL=/path/to/dico/${src_lang}-${tgt_lang}.5000-6500.txt
 
 python evaluate_BLI.py --src_emb $SRC_OUTPUT_EMBED --tgt_emb $TGT_OUTPUT_EMBED --dico_path $DICO_EVAL
 ```
