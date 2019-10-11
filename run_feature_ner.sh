@@ -6,7 +6,7 @@ mkdir -p cache
 mkdir -p log
 
 GPU=0
-MATRIX=europarl-v7.en-es.1k
+MATRIX=europarl-v7.en-es.30k
 CACHE=./cache
 
 MODEL=bert-base-multilingual-cased
