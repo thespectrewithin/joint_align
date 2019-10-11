@@ -22,7 +22,7 @@ This repo includes two settings where Joint_Align is applied to both non-context
 * [PyTorch](http://pytorch.org/)
 * [fastText](https://github.com/facebookresearch/fastText) 
 * [MUSE](https://github.com/facebookresearch/MUSE)
-* [fast_align] (https://github.com/clab/fast_align)
+* [fast_align](https://github.com/clab/fast_align)
 * [fastBPE](https://github.com/glample/fastBPE)
 
 To get started, run `./get_tools.sh`. 
@@ -31,7 +31,7 @@ To get started, run `./get_tools.sh`.
 
 ### Train embeddings
 
-First, we assume access to monolingual corpus such as Wikipedia for both languages. Use scripts such as (this one)[https://github.com/facebookresearch/XLM/blob/master/get-data-wiki.sh] for getting the corpus.
+First, we assume access to monolingual corpus such as Wikipedia for both languages. Use scripts such as [this one](https://github.com/facebookresearch/XLM/blob/master/get-data-wiki.sh) for getting the corpus.
 The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-textualized word embeddings. 
 This will produce a joint_align embedding at the location `$PWD/word_embeddings/${src_lang}_${tgt_lang}/joint_align_embedding`, which can then be applied to downstream tasks.
 
@@ -54,7 +54,7 @@ Joint_Align can be applied to Multilingual BERT by aligning its extracted featur
 
 ### Learn Alignment Matrix
 
-First, we apply word alignment tools such as [fast_align] (https://github.com/clab/fast_align) on parallel data, and learn alignment matrices using the features corresponding to the aligned words. To do so, simply run `./get_mapping.sh`.
+First, we apply word alignment tools such as [fast_align](https://github.com/clab/fast_align) on parallel data, and learn alignment matrices using the features corresponding to the aligned words. To do so, simply run `./get_mapping.sh`.
 
 ### Application: Cross-lingual NER
 
