@@ -20,7 +20,7 @@ ENG_TRAIN_FEAT_ALIGNED=$ENG_TRAIN.$FEATURE.aligned-to-es.features.pth
 ESP_TESTA_FEAT=$ESP_TESTA.$FEATURE.features.pth
 ESP_TESTB_FEAT=$ESP_TESTB.$FEATURE.features.pth
 
-# extract and align the features
+# extract and align the features using the provided alignment matrices
 CUDA_VISIBLE_DEVICES=$GPU python feature_extraction.py --bert_model $MODEL --cache_dir $CACHE --data $ENG_TRAIN --align_matrix $MATRIX --layers 9:13 --output $ENG_TRAIN_FEAT_ALIGNED
 CUDA_VISIBLE_DEVICES=$GPU python feature_extraction.py --bert_model $MODEL --cache_dir $CACHE --data $ESP_TESTA --layers 9:13 --output $ESP_TESTA_FEAT
 CUDA_VISIBLE_DEVICES=$GPU python feature_extraction.py --bert_model $MODEL --cache_dir $CACHE --data $ESP_TESTB --layers 9:13 --output $ESP_TESTB_FEAT
