@@ -27,7 +27,7 @@ CUDA_VISIBLE_DEVICES=$GPU python feature_extraction.py --bert_model $MODEL --cac
 
 # feed the features to a task-specific model for a downstream task
 for seed in 1001 2112 3223 4334 5445; do
-    CUDA_VISIBLE_DEVICES=0 python feature_ner.py \
+    CUDA_VISIBLE_DEVICES=$GPU python feature_ner.py \
 			--train_data $ENG_TRAIN \
 			--train_feat $ENG_TRAIN_FEAT_ALIGNED \
 			--dev_data $ESP_TESTA \
