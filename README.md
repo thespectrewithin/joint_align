@@ -33,7 +33,7 @@ To get started, run `./get_tools.sh`.
 ### Train embeddings
 
 First, we assume access to monolingual corpus such as Wikipedia for both languages. Use scripts such as [this one](https://github.com/facebookresearch/XLM/blob/master/get-data-wiki.sh) for getting the corpus.
-The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-textualized word embeddings. 
+The script `train_non_contextualized_embeddings.sh` shows how to use this code to learn cross-lingual non-contextualized word embeddings. 
 This will produce a joint_align embedding at the location `$PWD/word_embeddings/${src_lang}_${tgt_lang}/joint_align_embedding`, which can then be applied to downstream tasks.
 
 ### Application: Bilingual Lexicon Induction (BLI)
