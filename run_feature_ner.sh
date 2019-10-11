@@ -35,7 +35,7 @@ for seed in 1001 2112 3223 4334 5445; do
 			--test_data $ESP_TESTB \
 			--test_feat $ESP_TESTB_FEAT \
 			--bert_model=$MODEL \
-			--log_file ./log/eng-esp-bert-base-multilingual-cased-sum-last-4-features-aligned-to-es-1001 \
+			--log_file ./log/eng-esp.$FEATURE.aligned-to-esp.$SEED \
 			--seed $seed \
 			--log_interval 150
 done
