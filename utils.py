@@ -111,3 +111,194 @@ def get_word_translation_accuracy(word2id1, emb1, word2id2, emb2, path, method='
     precision_at_k = (np.mean(list(matching.values())) * len(included_source_words) + predict_self_count)/len(all_pairs)
     return 100 * precision_at_k
 
+def evaluate_ner(pred, gold):
+    tp = 0
+    fp = 0
+    fn = 0
+    for i in range(len(pred)):
+        pred_entities = get_entity(pred[i])
+        gold_entities = get_entity(gold[i])
+        temp = 0
+        for entity in pred_entities:
+            if entity in gold_entities:
+                tp += 1
+                temp += 1
+            else:
+                fp += 1
+        fn += len(gold_entities) - temp
+    precision = 1.0 * tp / (tp + fp) if tp + fp > 0 else 0 
+    recall = 1.0 * tp / (tp + fn) if tp + fn > 0 else 0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall > 0 else 0
+    return precision, recall, f1
+
+def get_entity(label):
+    entities = []
+    i = 0
+    while i < len(label):
+        if label[i] != 'O':
+            e_type = label[i][2:]
+            j = i + 1
+            while j < len(label) and label[j] == 'I-' + e_type:
+                j += 1
+            entities.append((i, j, e_type))
+            i = j
+        else:
+            i += 1
+    return entities
+
+def get_features(path):
+
+    saved = torch.load(path)
+    features = []
+    for i in range(len(saved)):
+        features.append(saved[i])
+    return features
+
+class InputExample(object):
+    """A single training/test example for simple sequence classification."""
+
+    def __init__(self, guid, text_a, text_b=None, label=None):
+        """Constructs a InputExample.
+
+        Args:
+            guid: Unique id for the example.
+            text_a: string. The untokenized text of the first sequence. For single
+            sequence tasks, only this sequence must be specified.
+            text_b: (Optional) string. The untokenized text of the second sequence.
+            Only must be specified for sequence pair tasks.
+            label: (Optional) string. The label of the example. This should be
+            specified for train and dev examples, but not for test examples.
+        """
+        self.guid = guid
+        self.text_a = text_a
+        self.text_b = text_b
+        self.label = label
+
+def readfile(filename):
+    '''
+    read file
+    return format :
+    [ ['EU', 'B-ORG'], ['rejects', 'O'], ['German', 'B-MISC'], ['call', 'O'], ['to', 'O'], ['boycott', 'O'], ['British', 'B-MISC'], ['lamb', 'O'], ['.', 'O'] ]
+    '''
+    f = open(filename)
+    data = []
+    sentence = []
+    label= []
+    for line in f:
+        if len(line)==0 or line.startswith('-DOCSTART') or line[0]=="\n":
+            if len(sentence) > 0:
+                data.append((sentence,label))
+                sentence = []
+                label = []
+            continue
+        splits = line.split(' ')
+        sentence.append(splits[0])
+        label.append(splits[-1][:-1])
+
+    if len(sentence) >0:
+        data.append((sentence,label))
+        sentence = []
+        label = []
+    return data
+
+class DataProcessor(object):
+    """Base class for data converters for sequence classification data sets."""
+
+    def get_train_examples(self, data_dir):
+        """Gets a collection of `InputExample`s for the train set."""
+        raise NotImplementedError()
+
+    def get_dev_examples(self, data_dir):
+        """Gets a collection of `InputExample`s for the dev set."""
+        raise NotImplementedError()
+
+    def get_labels(self):
+        """Gets the list of labels for this data set."""
+        raise NotImplementedError()
+
+    @classmethod
+    def _read_tsv(cls, input_file, quotechar=None):
+        """Reads a tab separated value file."""
+        return readfile(input_file)
+
+
+class NerProcessor(DataProcessor):
+    """Processor for the CoNLL-2003 data set."""
+
+    def get_train_examples(self, train_data):
+        """See base class."""
+        return self._create_examples(
+            self._read_tsv(train_data), "train")
+    
+    def get_dev_examples(self, dev_data):
+        """See base class."""
+        return self._create_examples(
+            self._read_tsv(dev_data), "dev")
+    
+    def get_test_examples(self, test_data):
+        """See base class."""
+        return self._create_examples(
+            self._read_tsv(test_data), "test")
+    
+    def get_labels(self):
+        return ["<PAD>", "O", "B-MISC", "I-MISC",  "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC"]
+
+    def _create_examples(self,lines,set_type):
+        examples = []
+        for i,(sentence,label) in enumerate(lines):
+            guid = "%s-%s" % (set_type, i)
+            text_a = ' '.join(sentence)
+            text_b = None
+            label = label
+            examples.append(InputExample(guid=guid,text_a=text_a,text_b=text_b,label=label))
+        return examples
+
+def read_align(p, unique=True, reverse=0):
+    
+    res = []
+    cnt = 0
+    
+    for l in open(p):
+        
+        ss = l.strip().split()
+        align = []
+        prev_s = '*'
+        prev_t = '*'
+        
+        for s in ss:
+            
+            src, trg = s.split('-')
+            if reverse:
+                src, trg = trg, src
+            if unique and (prev_s == src or prev_t == trg):
+                continue
+            align.append((int(src), int(trg)))
+            
+            prev_s = src
+            prev_t = trg
+            cnt += 1
+            
+        res.append(align)
+
+    return cnt, res
+
+def read_parallel(p, splt=' ||| ', reverse=0):
+
+    res = []
+    
+    for l in open(p):
+        
+        ss = l.strip().split(splt)
+        if reverse:
+            ss = ss[::-1]
+        try:
+            src = ss[0].split()
+            trg = ss[1].split()
+        except IndexError:
+            print("IndexError：{}".format(l))
+            src = []
+            trg = []
+
+        res.append([src, trg])
+
+    return res
