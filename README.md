@@ -24,6 +24,7 @@ This repo includes two settings where Joint_Align is applied to both non-context
 * [MUSE](https://github.com/facebookresearch/MUSE)
 * [fast_align](https://github.com/clab/fast_align)
 * [fastBPE](https://github.com/glample/fastBPE)
+* [transformers](https://github.com/huggingface/transformers)
 
 To get started, run `./get_tools.sh`. 
 
