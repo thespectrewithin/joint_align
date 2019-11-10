@@ -8,6 +8,8 @@ parser.add_argument("--corpus", type=str, required=True,
 parser.add_argument("--target_size", type=int, required=True)
 parser.add_argument("--output", type=str, required=True)
 
+args = parser.parse_args()
+
 text = []
 
 for line in open(args.corpus):
