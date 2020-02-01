@@ -7,7 +7,7 @@ This repo contains the source codes for our paper
 
 >Zirui Wang*, Jiateng Xie*, Ruochen Xu, Yiming Yang, Graham Neubig, Jaime Carbonell (*: equal contribution)
 
->Preprint
+>ICLR 2020
 
 ## Introduction
 
